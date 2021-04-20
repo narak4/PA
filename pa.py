@@ -4,18 +4,9 @@ import requests
 import json
 from configparser import ConfigParser
 
-config_object = ConfigParser()
-config_object.read("config.ini")
 
-weather_api_key = config_object['weather_api_key']
-city_lat = config_object['city_lat']
-city_lon = config_object['city_lon']
-api_key = weather_api_key["api_key"]
-lat = city_lat["lat"]
-lon = city_lon["lon"]
-Final_url = "https://api.openweathermap.org/data/2.5/onecall?lat=%s&lon=%s&appid=%s&units=metric" % (lat, lon, api_key)
-weather_data = requests.get(Final_url).json()
-temp = weather_data["current"]["temp"]
+
+
 
 remind = open("reminders.txt")
 
@@ -41,7 +32,33 @@ while pa == "c" or "w" or "r" or "s":
         print(calendar)
 
     elif pa == "w":
-        print("current temp: ", temp)
+        try:
+            config_object = ConfigParser()
+            config_object.read("config.ini")
+            weather_api_key = config_object['weather_api_key']
+            city_lat = config_object['city_lat']
+            city_lon = config_object['city_lon']
+            api_key = weather_api_key["api_key"]
+            lat = city_lat["lat"]
+            lon = city_lon["lon"]
+            Final_url = "https://api.openweathermap.org/data/2.5/onecall?lat=%s&lon=%s&appid=%s&units=metric" % (lat, lon, api_key)
+            weather_data = requests.get(Final_url).json()
+            temp = weather_data["current"]["temp"]
+            print("current temp: ", temp)
+        except KeyError:
+            from configparser import ConfigParser
+            config_object = ConfigParser()
+            config_object.read("config.ini")
+            weather_api_key = config_object['weather_api_key']
+            city_lat = config_object['city_lat']
+            city_lon = config_object['city_lon']
+            new_lat, new_lon, new_api_key = input("Please enter latitude, longitude, and OpenWeather api key: ").split()
+            weather_api_key["api_key"] = new_api_key
+            city_lat["lat"] = new_lat
+            city_lon["lon"] = new_lon
+            with open('config.ini', 'w') as configfile:
+                config_object.write(configfile)
+            continue
 
     elif pa == "r":
         remind.seek(0)
