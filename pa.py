@@ -2,13 +2,21 @@ import calendar
 from datetime import date
 import requests
 import json
+from configparser import ConfigParser
 
-api_key = "ed7b0b8207565551fd71a933558a7339"
-lat = 43.589046
-lon = -79.644119
+config_object = ConfigParser()
+config_object.read("config.ini")
+
+weather_api_key = config_object['weather_api_key']
+city_lat = config_object['city_lat']
+city_lon = config_object['city_lon']
+api_key = weather_api_key["api_key"]
+lat = city_lat["lat"]
+lon = city_lon["lon"]
 Final_url = "https://api.openweathermap.org/data/2.5/onecall?lat=%s&lon=%s&appid=%s&units=metric" % (lat, lon, api_key)
 weather_data = requests.get(Final_url).json()
-temp = weather_data['current']['temp']
+temp = weather_data["current"]["temp"]
+
 remind = open("reminders.txt")
 
 
