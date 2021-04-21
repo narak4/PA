@@ -1,4 +1,4 @@
-# PA For Terminal
+# Personal Assistant For Terminal
 **My first project**
 
 This is my first ever program! I used Python to create this little project.
