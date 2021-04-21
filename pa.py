@@ -4,7 +4,17 @@ import requests
 import json
 from configparser import ConfigParser
 
-
+config_object = ConfigParser()
+config_object.read("config.ini")
+weather_api_key = config_object['weather_api_key']
+city_lat = config_object['city_lat']
+city_lon = config_object['city_lon']
+api_key = weather_api_key["api_key"]
+lat = city_lat["lat"]
+lon = city_lon["lon"]
+Final_url = "https://api.openweathermap.org/data/2.5/onecall?lat=%s&lon=%s&appid=%s&units=metric" % (lat, lon, api_key)
+weather_data = requests.get(Final_url).json()
+temp = weather_data["current"]["temp"]
 
 
 
@@ -21,11 +31,12 @@ print("Options: ")
 print("Calendar:\tc")
 print("Weather:\tw")
 print("Reminder:\tr")
-print("Summary:\ts")
+print("Summary:\tsum")
+print("Search: \tsearch")
 print("Close PA:\tstop")
-
+print("\n")
 pa = "a"
-while pa == "c" or "w" or "r" or "s":
+while pa == "c" or "w" or "r" or "s" or "search":
     pa = (input("How may I be of assistance? "))
     if pa == "c":
         print("Today: ", today)
@@ -91,12 +102,20 @@ while pa == "c" or "w" or "r" or "s":
             remind.seek(0)
             print(remind.read())
         continue
-    elif pa == "s":
+
+    elif pa == "sum":
         remind.seek(0)
         print(remind.read())
         print("Today: ", today)
         print(calendar)
         print("current temp: ", temp)
+
+    elif pa == "search":
+        from urllib.request import urlretrieve
+        from urllib.parse import quote
+        import webbrowser
+        query = quote(input("Search: "))
+        search = webbrowser.open("https://duckduckgo.com/?q=" + query)
 
     elif pa == "stop":
         print("Goodbye!")
