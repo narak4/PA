@@ -59,8 +59,6 @@ while pa == "c" or "w" or "r" or "s" or "search":
             with open('config.ini', 'w') as configfile:
                 config_object.write(configfile)
             continue
-            if not:
-                raise
 
     elif pa == "r":
         remind.seek(0)
