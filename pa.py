@@ -6,7 +6,7 @@ from configparser import ConfigParser
 import keyboard
 
 hotkey = "ctrl + x"
-triple = lambda a : a, a, a
+
 remind = open("reminders.txt")
 
 today = date.today()
