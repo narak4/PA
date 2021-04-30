@@ -3,7 +3,10 @@ from datetime import date
 import requests
 import json
 from configparser import ConfigParser
+import keyboard
 
+hotkey = "ctrl + x"
+triple = lambda a : a, a, a
 remind = open("reminders.txt")
 
 today = date.today()
@@ -13,7 +16,7 @@ calendar = calendar.month(year,month)
 ascii_art = open("ascii_art")
 print(ascii_art.read())
 print("Options: ")
-print("Calendar:\tc")
+print("Calendar:\tc\t\tLeave Inputs:\tctrl + x")
 print("Weather:\tw")
 print("Reminder:\tr")
 print("Summary:\tsum")
@@ -24,6 +27,7 @@ pa = "a"
 while pa == "c" or "w" or "r" or "s" or "search":
     pa = (input("How may I be of assistance? "))
     if pa == "c":
+        print("\n")
         print("Today: ", today)
         print(calendar)
 
@@ -68,25 +72,28 @@ while pa == "c" or "w" or "r" or "s" or "search":
             remind = open("reminders.txt", "a+")
             remind.seek(0)
             print(remind.read())
+            if keyboard.is_pressed(hotkey):
+                break
             continue
 
         elif reminder == "-":
-            def deleteLine():
-                fn = 'reminders.txt'
-                f = open(fn)
-                output = []
-                str=input("first word/words of reminder: ")
-                for line in f:
-                    if not line.startswith(str):
-                        output.append(line)
-                f.close()
-                f = open(fn, 'w')
-                f.writelines(output)
-                f.close()
-            deleteLine()
+            fn = 'reminders.txt'
+            f = open(fn)
+            output = []
+            str = input("first word/words of reminder: ")
+            for line in f:
+                if not line.startswith(str):
+                    output.append(line)
+            f.close()
+            f = open(fn, 'w')
+            f.writelines(output)
+            f.close()
             remind.seek(0)
             print(remind.read())
-        continue
+            if keyboard.is_pressed(hotkey):
+                break
+        else:
+            break
 
     elif pa == "sum":
         remind.seek(0)
@@ -107,7 +114,7 @@ while pa == "c" or "w" or "r" or "s" or "search":
             temp = weather_data["current"]["temp"]
             print("current temp: ", temp)
         except KeyError:
-            print("Please copmlete weather parameters.")
+            print("Please complete weather parameters.")
 
     elif pa == "search":
         from urllib.request import urlretrieve
@@ -115,6 +122,9 @@ while pa == "c" or "w" or "r" or "s" or "search":
         import webbrowser
         query = quote(input("Search: "))
         search = webbrowser.open("https://duckduckgo.com/?q=" + query)
+        if keyboard.is_pressed(hotkey):
+            break
+        continue
 
     elif pa == "stop":
         print("Goodbye!")
