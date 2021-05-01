@@ -4,7 +4,7 @@
 This is my first ever program! I used Python to create this little project.
 
 _Features_:
-* Weather: You'll need an OpenWeather api-key and the latitude and longitude for the city/region you request. (you can find your city's latitude and longitude at https://www.latlong.net/)
+* Weather: You'll need an OpenWeather One Call api-key and the latitude and longitude for the city/region you request. (you can find your city's latitude and longitude at https://www.latlong.net/)
 * Reminders: Right now it is a simple text file.
 * Calendar: Shows you the current date and a month-view.
 * Search: Search for anything on DuckDuckGo. (opens in your default browser)
