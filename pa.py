@@ -46,18 +46,7 @@ while pa == "c" or "w" or "r" or "s" or "search":
             temp = weather_data["current"]["temp"]
             print("current temp: ", temp)
         except KeyError:
-            from configparser import ConfigParser
-            config_object = ConfigParser()
-            config_object.read("config.ini")
-            weather_api_key = config_object['weather_api_key']
-            city_lat = config_object['city_lat']
-            city_lon = config_object['city_lon']
-            new_lat, new_lon, new_api_key = input("Please enter latitude, longitude, and OpenWeather api key: ").split()
-            weather_api_key["api_key"] = new_api_key
-            city_lat["lat"] = new_lat
-            city_lon["lon"] = new_lon
-            with open('config.ini', 'w') as configfile:
-                config_object.write(configfile)
+            print("Please add OpenWeather api-key, latitude, and longitude to config.ini")
             continue
 
     elif pa == "r":
